@@ -1,11 +1,13 @@
 package com.project.dykj.domain.member.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class MemberSignupDTO {
 	private String userId;
 	private String userPwd;
 	private String phone;
-	private boolean isReceiveNotification;
+	private String isRecieveNotification;
 }

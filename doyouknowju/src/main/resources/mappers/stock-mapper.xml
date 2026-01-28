@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="stockMapper">
+<mapper namespace="com.project.dykj.kis.mapper.StockMapper">
 
   <update id="mergeStock">
     MERGE INTO STOCKS t

@@ -1,19 +1,18 @@
-﻿package com.project.dykj.kis.service;
+package com.project.dykj.kis.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.dykj.kis.mapper.StockMapper;
 import com.project.dykj.kis.model.vo.KisDailyChartResponse;
 import com.project.dykj.kis.model.vo.KisStockInfoResponse;
 import com.project.dykj.kis.model.vo.StockSuggestItem;
@@ -35,13 +34,11 @@ public class StockService {
 
 	private static final Pattern STOCK_CODE_PATTERN = Pattern.compile("^(?:A)?\\d{6}$");
 
-	private static final String NS_STOCK = "stockMapper.";
-
-	private final SqlSessionTemplate sqlSession;
+	private final StockMapper stockMapper;
 	private final KisService kisService;
 
-	public StockService(SqlSessionTemplate sqlSession, KisService kisService) {
-		this.sqlSession = sqlSession;
+	public StockService(StockMapper stockMapper, KisService kisService) {
+		this.stockMapper = stockMapper;
 		this.kisService = kisService;
 	}
 
@@ -51,7 +48,7 @@ public class StockService {
 		if (id.isEmpty()) {
 			throw new IllegalArgumentException("stockId is required");
 		}
-		return sqlSession.selectOne(NS_STOCK + "selectById", Map.of("stockId", id));
+		return stockMapper.selectById(id);
 	}
 
 	@Transactional(readOnly = true)
@@ -82,7 +79,7 @@ public class StockService {
 		}
 		for (StockUpsertRequest req : items) {
 			validateUpsert(req);
-			sqlSession.update(NS_STOCK + "mergeStock", Map.of("req", req));
+			stockMapper.mergeStock(req);
 		}
 	}
 
@@ -96,10 +93,7 @@ public class StockService {
 			return List.of();
 		}
 		int safeLimit = Math.min(20, Math.max(1, limit));
-		Map<String, Object> params = new HashMap<>();
-		params.put("q", query);
-		params.put("limit", safeLimit);
-		return sqlSession.selectList(NS_STOCK + "suggest", params);
+		return stockMapper.suggest(query, safeLimit);
 	}
 
 	/**
@@ -133,7 +127,7 @@ public class StockService {
 					isActive
 			);
 			validateUpsert(req);
-			sqlSession.update(NS_STOCK + "mergeStock", Map.of("req", req));
+			stockMapper.mergeStock(req);
 		}
 	}
 
@@ -203,7 +197,7 @@ public class StockService {
 						"Y"
 				);
 				validateUpsert(req);
-				sqlSession.update(NS_STOCK + "mergeStock", Map.of("req", req));
+				stockMapper.mergeStock(req);
 				imported++;
 			}
 		} catch (IOException e) {

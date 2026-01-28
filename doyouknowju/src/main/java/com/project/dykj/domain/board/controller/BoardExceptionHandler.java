@@ -1,4 +1,4 @@
-package com.project.dykj.board.controller;
+package com.project.dykj.domain.board.controller;
 
 import java.util.Map;
 

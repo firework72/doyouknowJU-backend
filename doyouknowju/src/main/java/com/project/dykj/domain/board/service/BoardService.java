@@ -1,9 +1,9 @@
-package com.project.dykj.board.service;
+package com.project.dykj.domain.board.service;
 
 import java.util.List;
 
-import com.project.dykj.board.model.vo.Board;
-import com.project.dykj.board.model.vo.Reply;
+import com.project.dykj.domain.board.model.vo.Board;
+import com.project.dykj.domain.board.model.vo.Reply;
 
 public interface BoardService {
 

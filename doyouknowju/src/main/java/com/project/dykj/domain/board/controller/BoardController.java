@@ -1,4 +1,4 @@
-package com.project.dykj.board.controller;
+package com.project.dykj.domain.board.controller;
 
 import java.net.URI;
 import java.util.List;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.dykj.board.model.vo.Board;
-import com.project.dykj.board.model.vo.Reply;
-import com.project.dykj.board.service.BoardService;
+import com.project.dykj.domain.board.model.vo.Board;
+import com.project.dykj.domain.board.model.vo.Reply;
+import com.project.dykj.domain.board.service.BoardService;
 
 @RestController
 @RequestMapping("/api/boards")
